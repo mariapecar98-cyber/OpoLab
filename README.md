@@ -84,3 +84,54 @@ desde el asistente, pero no sustituye la autorización OAuth del navegador.
 
 Referencias: [autorización Google](https://developers.google.com/identity/oauth2/web/guides/use-token-model),
 [lectura de celdas](https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets.values/get).
+
+## Ejercicios de Google Drive
+
+Se incluyen 22 fichas PDF completas en `public/exercises`, indexadas en
+`src/exerciseLibrary.json`: 8 de nivel básico, 7 de oposición y 7 de nivel difícil.
+Están disponibles al abrir Ejercicios sin autorizar Google. El visor muestra
+el PDF original con sus ejercicios y soluciones, conservando fórmulas y gráficos.
+Se ha comprobado que los 22 PDF se pueden leer; algunas fichas solo contienen
+enunciados o tienen soluciones sin un encabezado reconocible.
+La conexión opcional de Drive permite consultar las fichas actuales de la carpeta.
+
+La vista por ejercicios utiliza `public/exercises/content.json`, generado con
+`node scripts/extract-exercises.mjs`. La importación actual separa 334 enunciados
+y 279 soluciones identificadas. Cada tarjeta enlaza a su página del PDF y oculta
+la solución hasta desplegarla. La búsqueda filtra enunciados y números.
+Cada tarjeta muestra recortes WebP del PDF original, conservando fórmulas,
+colores y gráficos. Los ejercicios y soluciones de varias páginas se muestran
+en varias imágenes; pulsar una imagen la abre ampliada. Las imágenes se cargan
+bajo demanda y el texto extraído queda disponible en un desplegable y para buscar.
+El importador requiere `@napi-rs/canvas` y regenera también las imágenes en
+`public/exercises/images` a escala 2. La importación actual contiene 940 recortes.
+No se inventan las soluciones ausentes o no identificadas.
+La ficha A0 tiene varias secciones con numeración independiente: de momento solo
+se separan los siete enunciados de su primera sección, sin asociar soluciones.
+
+En Entrenar, «Simulacro de problemas» sortea cuatro problemas de nivel oposición
+y uno de nivel difícil, sin repetidos, y mezcla el orden de los cinco. Muestra
+solo los enunciados como imágenes, numerados del 1 al 5. Los recortes específicos
+de `public/exercises/mock` tapan las referencias a la ficha y el número original;
+sus nombres no contienen el identificador de la ficha. No se muestran soluciones,
+texto extraído ni enlaces a la ficha durante el simulacro. «Nuevo simulacro» hace
+otro sorteo. Se utilizan los enunciados que tienen una separación identificada
+de su solución para evitar mostrar respuestas dentro del recorte.
+
+La pestaña Ejercicios lee la carpeta `1nUvvf-JGeIjr1YGoiFAvuyumWXtC0pHo`
+y sus subcarpetas Nivel básico, Nivel oposición y Nivel difícil. Incluye las
+fichas de carpetas anidadas. El usuario pulsa Conectar Google Drive y concede
+lectura con su cuenta de Google. Habilitar Google Drive API en el mismo proyecto
+OAuth y configurar VITE_GOOGLE_CLIENT_ID como se describe arriba. No se escriben
+archivos ni se guarda el token en el navegador; se conserva solo en memoria.
+La conexión de Drive del chat y la autorización de la app son independientes.
+
+Admite PDF con texto, DOCX, texto plano y Google Docs. Descarga y analiza la ficha
+seleccionada en el navegador. Los lectores PDF y Word se cargan bajo demanda.
+Reconoce encabezados Ejercicio/Problema y numeración 1. o 1), con Solución/Respuesta
+intercalada o un bloque Soluciones/Respuestas al final, asociado por número.
+Rechaza números de ejercicio repetidos y avisa de soluciones no identificadas.
+Mantiene el enlace al original para revisar la extracción. Los PDF escaneados
+requieren OCR; las imágenes, diagramas y fórmulas sin texto no se reproducen con
+fidelidad mediante esta extracción. La biblioteca incluida utiliza el PDF completo
+para evitar pérdidas de formato o asociaciones incorrectas de soluciones.

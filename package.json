@@ -4,17 +4,20 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "test": "node --test src/sheets.test.mjs src/data.test.mjs src/checklist.test.mjs",
+    "test": "node --test src/sheets.test.mjs src/data.test.mjs src/checklist.test.mjs src/exercises.test.mjs",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
+    "mammoth": "^1.13.0",
+    "pdfjs-dist": "^4.10.38",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@napi-rs/canvas": "^0.1.100",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",

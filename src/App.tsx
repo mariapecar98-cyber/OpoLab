@@ -19,6 +19,8 @@ import { StudyDataProvider, useStudyData } from './StudyData'
 import { SheetPanel } from './SheetPanel'
 import { ChecklistPage } from './ChecklistPage'
 import { HomePage } from './HomePage'
+import { ExercisesPage } from './ExercisesPage'
+import { ProblemMock } from './ProblemMock'
 import { useChecklist } from './useChecklist'
 import { definitionsSheetId, demonstrationsSheetId, googleClientId } from './sheets'
 import { loadProgress, saveProgress } from './storage'
@@ -28,6 +30,7 @@ const navigation: { id: Page; label: string; icon: typeof BookOpen }[] = [
   { id: 'home', label: 'Inicio', icon: BookOpen },
   { id: 'definitions', label: 'Definiciones', icon: BookOpen },
   { id: 'demonstrations', label: 'Demostraciones', icon: Lightbulb },
+  { id: 'exercises', label: 'Ejercicios', icon: BookOpen },
   { id: 'checklist', label: 'Checklist de temas', icon: ListChecks },
   { id: 'train', label: 'Entrenar', icon: Dices },
 ]
@@ -36,6 +39,7 @@ const pageTitles: Record<Page, string> = {
   home: 'Inicio',
   definitions: 'Definiciones',
   demonstrations: 'Demostraciones',
+  exercises: 'Ejercicios',
   checklist: 'Checklist de temas',
   train: 'Entrenar',
 }
@@ -126,6 +130,7 @@ function AppContent() {
           <div hidden={page !== 'definitions'}><SheetPanel kind="definition" targetSheetId={definitionsSheetId} /></div>
           <div hidden={page !== 'demonstrations'}><SheetPanel kind="demonstration" targetSheetId={demonstrationsSheetId} /></div>
           {page === 'checklist' && <ChecklistPage checklist={checklist} />}
+          <div hidden={page !== 'exercises'}><ExercisesPage /></div>
           {page === 'train' && <TrainPage progress={progress} updateProgress={updateProgress} />}
         </div>
       </main>
@@ -154,6 +159,7 @@ function PageIntro({ title, children }: { title: string; children?: ReactNode })
 }
 
 function TrainPage({ progress, updateProgress }: { progress: StudyProgress; updateProgress: (updater: (current: StudyProgress) => StudyProgress) => void }) {
+  const [mode, setMode] = useState<'theory' | 'mock'>('theory')
   const { topics, definitions, demonstrations, allItems, sheets, refreshAll, connect, identityReady, authorizing, authError } = useStudyData()
   const [topicSelection, setTopicSelection] = useState<TopicSelection>('all')
   const selectedTopics = selectedTopicNumbers(topics, topicSelection)
@@ -210,6 +216,8 @@ function TrainPage({ progress, updateProgress }: { progress: StudyProgress; upda
     setRevealed(false)
   }
 
+  if (mode === 'mock') return <ProblemMock onBack={() => setMode('theory')} />
+
   if (sessionStarted && questionIndex >= questions.length) {
     const known = sessionRatings.filter((rating) => rating === 'known').length
     const partial = sessionRatings.filter((rating) => rating === 'partial').length
@@ -225,6 +233,10 @@ function TrainPage({ progress, updateProgress }: { progress: StudyProgress; upda
   return (
     <>
       <PageIntro title="Entrenar" />
+      <div className="count-options training-modes" aria-label="Tipo de entrenamiento">
+        <button className="selected" aria-pressed="true">Definiciones y demostraciones</button>
+        <button aria-pressed="false" onClick={() => setMode('mock')}>Simulacro de problemas</button>
+      </div>
       <div className="sheet-toolbar">
         <button className="button button-primary" onClick={() => void refreshAll()} disabled={loading || authorizing}>Actualizar temas</button>
         {googleClientId && <button className="button" onClick={() => void connect()} disabled={!identityReady || authorizing}>Autorizar Google</button>}

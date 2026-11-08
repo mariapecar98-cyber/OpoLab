@@ -72,12 +72,12 @@ export function loadGoogleIdentity(): Promise<void> {
   return identityLoad
 }
 
-export function authorizeGoogle(): Promise<string> {
+export function authorizeGoogle(scope = 'https://www.googleapis.com/auth/spreadsheets.readonly'): Promise<string> {
   return new Promise((resolve, reject) => {
     if (!window.google || !googleClientId) { reject(new Error('Falta configurar la conexión de Google.')); return }
     window.google.accounts.oauth2.initTokenClient({
       client_id: googleClientId,
-      scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
+      scope,
       callback: (response) => response.access_token ? resolve(response.access_token) : reject(new Error('Google no ha autorizado el acceso.')),
       error_callback: () => reject(new Error('La autorización se ha cancelado.')),
     }).requestAccessToken()

@@ -1,6 +1,6 @@
 export type StudyKind = 'definition' | 'demonstration'
 export type SelfRating = 'unknown' | 'partial' | 'known'
-export type Page = 'home' | 'definitions' | 'demonstrations' | 'checklist' | 'train'
+export type Page = 'home' | 'definitions' | 'demonstrations' | 'checklist' | 'train' | 'exercises'
 
 export interface Topic {
   number: number

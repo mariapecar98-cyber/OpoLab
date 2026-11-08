@@ -564,7 +564,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
   .mobile-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 9px 12px; background: white; border-bottom: 1px solid #f0ebf4; }
   .mobile-menu button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; border: 0; border-radius: 7px; color: #756d7e; background: transparent; font-size: 9px; font-weight: 800; }
   .mobile-menu button.selected { background: #f5eefc; color: var(--purple); }
-  .mobile-tabbar { position: fixed; z-index: 19; bottom: 0; left: 0; right: 0; display: grid; grid-template-columns: repeat(5, minmax(64px, 1fr)); padding: 7px 5px max(7px, env(safe-area-inset-bottom)); background: rgba(255,255,255,.97); border-top: 1px solid #eee9f2; box-shadow: 0 -4px 18px #3a2a4c08; }
+  .mobile-tabbar { position: fixed; z-index: 19; bottom: 0; left: 0; right: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding: 7px 5px max(7px, env(safe-area-inset-bottom)); background: rgba(255,255,255,.97); border-top: 1px solid #eee9f2; box-shadow: 0 -4px 18px #3a2a4c08; }
   .mobile-tabbar button { display: flex; flex-direction: column; align-items: center; gap: 3px; border: 0; color: #9d95a4; background: transparent; font-size: 7px; font-weight: 800; }
   .mobile-tabbar button.selected { color: var(--purple); }
   .page-content { padding: 25px 16px 27px; }
@@ -696,3 +696,30 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+.exercise-levels { margin: 20px 0; flex-wrap: wrap; }
+.exercise-layout { display: grid; grid-template-columns: minmax(200px, .65fr) minmax(0, 1.7fr); gap: 20px; align-items: start; }
+.exercise-files { padding: 20px; }
+.exercise-files h2, .exercise-source h2 { font-size: 16px; overflow-wrap: anywhere; }
+.exercise-file { display: block; width: 100%; padding: 12px; margin-top: 8px; text-align: left; border: 1px solid #e9e3ee; border-radius: 10px; background: white; color: inherit; overflow-wrap: anywhere; cursor: pointer; }
+.exercise-file.selected { background: #f3edf9; border-color: var(--purple); }
+.exercise-source { margin-bottom: 20px; }
+.exercise-card { padding: 24px; margin-bottom: 16px; }
+.exercise-card h3 { margin-top: 0; font-size: 15px; color: var(--purple); }
+.exercise-text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; }
+.exercise-card summary { cursor: pointer; color: var(--purple); font-weight: 700; padding: 12px 0; }
+.exercise-solution { background: #f7f3fa; padding: 18px; border-radius: 10px; }
+.exercise-unmatched { font-size: 13px; color: #756b80; }
+.exercise-search { display: grid; gap: 8px; }
+.exercise-search input { width: 100%; padding: 12px; border: 1px solid #ddd5e5; border-radius: 10px; font: inherit; }
+@media (max-width: 700px) { .exercise-layout { grid-template-columns: minmax(0, 1fr); } }
+.exercise-pdf { width: 100%; height: 80vh; min-height: 500px; border: 1px solid #ddd; border-radius: 12px; margin-top: 16px; background: white; }
+.exercise-captures { min-width: 0; margin-top: 14px; }
+.exercise-image-link { display: block; margin-bottom: 12px; background: #fff; border: 1px solid #e9e3ee; border-radius: 8px; overflow: hidden; cursor: zoom-in; }
+.exercise-image-link:focus-visible { outline: 3px solid var(--purple); outline-offset: 3px; }
+.exercise-image { display: block; width: 100%; height: auto; }
+.exercise-transcript { font-size: 13px; }
+.exercise-card .exercise-transcript summary { font-weight: 400; color: #756b80; }
+.training-modes { margin-bottom: 24px; flex-wrap: wrap; }
+.mock-problems { margin-top: 24px; max-width: 1000px; }
+.mock-problems h2 { font-size: 18px; color: var(--purple); margin-top: 0; }
